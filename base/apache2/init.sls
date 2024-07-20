@@ -1,13 +1,12 @@
 install_apache2:
     pkg.installed:
-        - pkg:
-            - apache2
+        - apache2
     
 index_html:
     file.managed:
         - name: /var/www/html/index.html
-        - user: apache2
-        - group: apache2
+        - user: root
+        - group: root
         - mode: 644
         - source: salt://apache2/templates/index.html
 
