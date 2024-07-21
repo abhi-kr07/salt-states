@@ -1,0 +1,1 @@
+# This is a pillar for qa environment
