@@ -8,9 +8,9 @@ user_{{ user }}:
     - uid: {{ data['uid'] }}
     - groups: {{ data['groups'] }}
 
-{{ users }}_key:
+{{ user }}_key:
   ssh_auth,present:
     - name: {{ data['ssh_key'] }}
-    - users: {{ users }}
+    - user: {{ user }}
 
 {% endfor %}
