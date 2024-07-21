@@ -1,17 +1,16 @@
-user_abhi:
+{% for user, data in pillar.get('admin_users', {}).items() %}
+user_{{ user }}:
   user.present:
-    - name: abhi
-    - fullname: abhishek
-    - shell: /bin/bash
-    - home: /home/abhi
-    - uid: 10000
-    - groups:
-      - wheel
+    - name: {{ user }}
+    - fullname: {{ data['fullname'] }}
+    - shell: {{ data['shell'] }}
+    - home: {{ data['home'] }}
+    - uid: {{ data['uid'] }}
+    - groups: {{ data['groups'] }}
 
-abhi_key:
-  ssh_auth.present:
-    - name: abhi
-    - user: abhi
-    - source: salt://users/keys/abhi.pub
-    - enc: ssh-rsa
+{{ users }}_key:
+  ssh_auth,present:
+    - name: {{ data['ssh_key'] }}
+    - users: {{ users }}
 
+{% endfor %}
