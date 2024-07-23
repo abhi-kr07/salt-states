@@ -1,4 +1,4 @@
-import urllib2
+import urllib
 
 def ec2_check():
 
@@ -11,8 +11,8 @@ def ec2_check():
     #Base url
     base_url = 'http://169.254.169.254/latest/meta-data/'
 
-    instance_id = urllib2.urlopen(base_url + '/instance_id')
-    instance_type = urllib2.urlopen(base_url + 'instance-type')
+    instance_id = urllib.urlopen(base_url + '/instance_id')
+    instance_type = urllib.urlopen(base_url + 'instance-type')
     instance_id = instance_id.read()
     instance_type = instance_type.read()
 
