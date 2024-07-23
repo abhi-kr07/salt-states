@@ -1,27 +1,38 @@
-import urllib
+import urllib.request
+
+def get_metadata(token, endpoint):
+    request = urllib.request.Request(endpoint)
+    request.add_header('X-aws-ec2-metadata-token', token)
+    with urllib.request.urlopen(request) as response:
+        return response.read().decode('utf-8')
 
 def ec2_check():
-
-    #Initiate grain dictionary
+    # Initiate grain dictionary
     grains = {}
 
-    #Intiate grains key cloud info
+    # Initiate grains key cloud info
     grains['cloud_info'] = []
 
-    #Base url
+    # Base URL
     base_url = 'http://169.254.169.254/latest/meta-data/'
 
-    instance_id = urllib.urlopen(base_url + '/instance_id')
-    instance_type = urllib.urlopen(base_url + 'instance-type')
-    instance_id = instance_id.read()
-    instance_type = instance_type.read()
+    # Get a token for IMDSv2
+    token_url = 'http://169.254.169.254/latest/api/token'
+    token_request = urllib.request.Request(token_url, method='PUT')
+    token_request.add_header('X-aws-ec2-metadata-token-ttl-seconds', '21600')  # Token validity period
+    with urllib.request.urlopen(token_request) as response:
+        token = response.read().decode('utf-8')
 
-    grains['cloud_info'].append('provider':'Amazon')
-    grains['cloud_info'][0]['instance_id'] = instance_id
-    grains['cloud_info'][0]['instance_type'] = instance_type
-    
+    # Fetch instance data using the token
+    instance_id = get_metadata(token, base_url + 'instance-id')
+    instance_type = get_metadata(token, base_url + 'instance-type')
+
+    # Append provider and instance details
+    cloud_info = {
+        'provider': 'Amazon',
+        'instance_id': instance_id,
+        'instance_type': instance_type
+    }
+    grains['cloud_info'].append(cloud_info)
+
     return grains
-
-if __name__ == '__main__':
-    ec2_check()
-
