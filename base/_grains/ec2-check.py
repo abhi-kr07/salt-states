@@ -36,3 +36,4 @@ def ec2_check():
     grains['cloud_info'].append(cloud_info)
 
     return grains
+
