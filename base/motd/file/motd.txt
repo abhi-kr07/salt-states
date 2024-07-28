@@ -1,0 +1,9 @@
+Welcome to Amazon
+
+System Information:
+  - Hostname: {{ grains['fqdn'] }}
+  - IP Address: {{ grains['ipv4'][0] }}
+  - OS: {{ grains['os'] }} {{ grains['osrelease'] }}
+
+Security Notice:
+Please ensure you follow our Amazon's security policy.
