@@ -1,2 +1,0 @@
-github:
-  t: <git-tokn>
