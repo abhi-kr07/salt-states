@@ -1,2 +1,2 @@
 github:
-  token: <your-github-token>
+  t: <git-tokn>
